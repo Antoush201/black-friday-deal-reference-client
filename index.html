@@ -79,10 +79,13 @@ h2 span{display:block;color:var(--ink-3)}
 .form-card{width:100%;max-width:460px;justify-self:end;padding:28px 26px 24px;border-radius:24px;background:#fff;color:#09090b;font-family:var(--app);box-shadow:0 30px 80px rgba(0,0,0,.35);scroll-margin-top:24px}
 .form-card .fq{margin:0;font-size:19px;font-weight:600;letter-spacing:-.025em}
 .form-card .fh{margin:6px 0 18px;color:var(--ink-3);font-size:13.5px;line-height:1.45}
-.embed{margin:0 -10px;border-radius:14px;overflow:hidden}
-.embed iframe{display:block;width:100%;height:660px;border:0;background:#fff}
-.alt{margin:10px 0 0;text-align:center;font-size:12px;color:#a1a1aa}
-.alt a{color:#52525b;text-underline-offset:2px}
+.claim{position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center;gap:10px;height:56px;margin-top:4px;border-radius:999px;background:var(--ink);color:#fff;font:500 16px var(--font);letter-spacing:-.01em;text-decoration:none;animation:pulse 2.4s var(--ease) infinite;transition:transform .2s var(--ease)}
+.claim:hover{transform:translateY(-1px)}
+.claim:active{transform:scale(.98)}
+.claim::after{content:"";position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.28) 50%,transparent 70%);transform:translateX(-120%);animation:shine 2.4s var(--ease) infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(10,10,11,.35)}70%{box-shadow:0 0 0 14px rgba(10,10,11,0)}100%{box-shadow:0 0 0 0 rgba(10,10,11,0)}}
+@keyframes shine{0%,40%{transform:translateX(-120%)}100%{transform:translateX(120%)}}
+@media (prefers-reduced-motion:reduce){.claim,.claim::after{animation:none}}
 .fine{margin:12px 0 0;text-align:center;font-size:12px;color:#a1a1aa}
 
 /* Sections claires */
@@ -164,7 +167,7 @@ footer a:hover{color:#fff}
     <a href="https://www.ola-ai.ca" target="_blank" rel="noopener" aria-label="OLA, ouvrir le site"><svg class="logo"><use href="#ola"/></svg></a>
     <nav>
       <a class="site" href="https://www.ola-ai.ca" target="_blank" rel="noopener"><span class="long">Découvrir OLA sur ola-ai.ca</span><span class="short">ola-ai.ca</span><svg class="arrow"><use href="#ext"/></svg></a>
-      <a class="btn light" href="#offre">Réclamer l'offre</a>
+      <a class="btn light" href="https://forms.courtierimmobilierqc.com/ola/reclamer-l-offre">Réclamer l'offre</a>
     </nav>
   </div>
 </header>
@@ -182,18 +185,15 @@ footer a:hover{color:#fff}
         <li>Présentation sans engagement</li>
       </ul>
       <div class="ctas">
-        <a class="btn light" href="#offre">Réclamer l'offre<svg class="arrow"><use href="#right"/></svg></a>
+        <a class="btn light" href="https://forms.courtierimmobilierqc.com/ola/reclamer-l-offre">Réclamer l'offre<svg class="arrow"><use href="#right"/></svg></a>
         <a class="btn ghost" href="https://www.ola-ai.ca" target="_blank" rel="noopener">Voir ce qu'OLA fait<svg class="arrow"><use href="#ext"/></svg></a>
       </div>
     </div>
 
     <div class="form-card" id="offre">
       <p class="fq">Réclame ta place</p>
-      <p class="fh">On te contacte pour te montrer OLA de A à Z. Tu décides après.</p>
-      <div class="embed">
-        <iframe id="form-frame" src="https://forms.courtierimmobilierqc.com/ola/reclamer-l-offre" title="Formulaire : réclamer l'offre Black Friday" loading="lazy" allow="clipboard-write"></iframe>
-      </div>
-      <p class="alt">Le formulaire ne s'affiche pas? <a href="https://forms.courtierimmobilierqc.com/ola/reclamer-l-offre" target="_blank" rel="noopener">Ouvre-le ici</a>.</p>
+      <p class="fh">Remplis le court formulaire. On te contacte pour te montrer OLA de A à Z, pis tu décides après.</p>
+      <a class="claim" href="https://forms.courtierimmobilierqc.com/ola/reclamer-l-offre">Réclamer mon offre<svg class="arrow"><use href="#right"/></svg></a>
       <p class="fine">20 places · jusqu'au 30 nov., 23 h 59</p>
     </div>
   </div>
@@ -269,7 +269,7 @@ footer a:hover{color:#fff}
     <h2>20 places.<span>Pas une de plus.</span></h2>
     <p>L'offre se termine le 30 novembre à 23 h 59, ou quand les 20 places sont prises.</p>
     <div class="ctas">
-      <a class="btn light" href="#offre">Réclamer l'offre<svg class="arrow"><use href="#right"/></svg></a>
+      <a class="btn light" href="https://forms.courtierimmobilierqc.com/ola/reclamer-l-offre">Réclamer l'offre<svg class="arrow"><use href="#right"/></svg></a>
       <a class="btn ghost" href="https://www.ola-ai.ca" target="_blank" rel="noopener">Découvrir OLA<svg class="arrow"><use href="#ext"/></svg></a>
     </div>
   </div>
@@ -287,23 +287,10 @@ footer a:hover{color:#fff}
   </div>
 </footer>
 
-<div class="sticky" id="sticky"><a class="btn dark" href="#offre">Réclamer mon setup à 50 %<svg class="arrow"><use href="#right"/></svg></a></div>
+<div class="sticky" id="sticky"><a class="btn dark" href="https://forms.courtierimmobilierqc.com/ola/reclamer-l-offre">Réclamer mon setup à 50 %<svg class="arrow"><use href="#right"/></svg></a></div>
 
 <script>
 (() => {
-  // Formulaire OLA en iframe : garde les utm_ / fbclid de la pub, et ajuste la hauteur si le formulaire l'annonce
-  const frame = document.getElementById('form-frame');
-  if (location.search) frame.src = frame.src + location.search;
-  window.addEventListener('message', (e) => {
-    let host = ''; try { host = new URL(e.origin).hostname; } catch (_) { return; }
-    if (!/courtierimmobilierqc\.com$/.test(host)) return;
-    const d = e.data; let h = 0;
-    if (typeof d === 'number') h = d;
-    else if (d && typeof d === 'object') h = +(d.height || d.frameHeight || 0);
-    else if (typeof d === 'string') { const m = d.match(/height\D{0,4}(\d{3,4})/i); if (m) h = +m[1]; }
-    if (h > 200 && h < 4000) frame.style.height = h + 'px';
-  });
-
   // Apparition douce des blocs
   const io = 'IntersectionObserver' in window ? new IntersectionObserver((es) => es.forEach((x) => { if (x.isIntersecting) { x.target.classList.add('in-view'); io.unobserve(x.target); } }), { rootMargin: '0px 0px -8% 0px' }) : null;
   document.querySelectorAll('.rv').forEach((el) => io ? io.observe(el) : el.classList.add('in-view'));
